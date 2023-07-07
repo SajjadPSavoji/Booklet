@@ -1,0 +1,10 @@
+execute:
+  execute_notebooks: off
+launch_buttons:
+  notebook_interface: jupyterlab
+  colab_url: https://colab.research.google.com
+  binderhub_url: https://mybinder.org
+repository:
+  url: https://github.com/SajjadPSavoji/forecasting-bootcamp/
+  path_to_book: ./
+  branch: booklet
