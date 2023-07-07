@@ -1,0 +1,65 @@
+name: create_booklet
+run-name: ${{ github.actor }} initializing booklet on repo
+on: [workflow_dispatch]
+jobs:
+  Init-BookLet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          
+      - name: check out to booklet branch
+        run: |
+          git checkout -b booklet
+          
+      - name: install jupyter book and cookiecutter
+        run: |
+          pip install -U cookiecutter jupyter-book
+          
+      - name: build jupyter book toc
+        run: |
+          jupyter-book toc from-project ./ -t -e .md -e .ipynb > _toc.yml
+          
+      - name: build jupyter book config
+        run: |
+          echo "execute:" >> _config.yml
+          echo "  execute_notebooks: off" >> _config.yml
+          echo "launch_buttons:" >> _config.yml
+          echo "  notebook_interface: jupyterlab" >> _config.yml
+          echo "  colab_url: https://colab.research.google.com" >> _config.yml
+          echo "  binderhub_url: https://mybinder.org" >> _config.yml
+          echo "repository:" >> _config.yml
+          echo "  url: https://github.com/${{github.repository}}/" >> _config.yml
+          echo "  path_to_book: ./" >> _config.yml
+          echo "  branch: booklet" >> _config.yml
+          
+      - name: setup deploybook workflow
+        run: |
+          echo "fix this part later on"
+          
+      - name: Build the book
+        run: |
+          jupyter-book build .
+  
+      - name: Commit changes
+        run: |
+          git add .
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "init booklet"
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "booklet"
+          
+      # Push the book's HTML to github-pages
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_build/html
