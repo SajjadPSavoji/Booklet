@@ -7,7 +7,7 @@ on:
       - booklet
       
 jobs:
-  Init-BookLet:
+  init_booklet:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
