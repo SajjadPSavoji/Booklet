@@ -1,10 +1,23 @@
+title: __TITLE__
+author: "Vector Institute"
+copyright: "Vector Institute"
+logo: "https://vectorinstitute.ai/wp-content/uploads/2022/11/logo-vector-institute-full-colour-01.png"
+
 execute:
   execute_notebooks: off
+  
 launch_buttons:
   notebook_interface: jupyterlab
   colab_url: https://colab.research.google.com
   binderhub_url: https://mybinder.org
+  
 repository:
-  url: https://github.com/SajjadPSavoji/forecasting-bootcamp/
+  url: __REPOSITORY_URL__
   path_to_book: ./
   branch: booklet
+  
+html:
+  google_analytics_id: __G_ANALYTICS_ID__
+  use_repository_button: true
+  use_edit_page_button: true
+  use_issues_button: true
