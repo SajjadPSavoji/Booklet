@@ -2,7 +2,7 @@ import sys
 import yaml
 
 # get file path, field and value from argv
-file_path = sys.argv[0]
+file_path = sys.argv[1]
 field     = sys.argv[2]
 value     = sys.argv[3]
 
