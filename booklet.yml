@@ -31,10 +31,6 @@ jobs:
       - name: build jupyter book config
         run: |
           curl -o _config.yml 'https://raw.githubusercontent.com/SajjadPSavoji/Booklet/main/_config.yml'
-          
-#       - name: setup deploy_book workflow for booklet branch
-#         run: |
-#           curl -o .github/workflows/deploy_book.yml 'https://raw.githubusercontent.com/SajjadPSavoji/Booklet/main/deploy_book.yml'
   
       - name: Commit changes
         run: |
