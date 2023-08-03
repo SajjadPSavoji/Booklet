@@ -3,8 +3,10 @@ run-name: ${{ github.actor }} initializing booklet
 on: 
   workflow_dispatch:
   push:
-    branches:
-      - booklet
+    branches: [booklet]
+  pull_request_target:
+    types: [closed]
+    branches: [booklet]
       
 jobs:
   # this job is executed on first dispatch on main branch
