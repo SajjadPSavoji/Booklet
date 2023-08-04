@@ -37,12 +37,15 @@ jobs:
         run: |
           curl -o _config.yml 'https://raw.githubusercontent.com/SajjadPSavoji/Booklet/main/_config.yml'
           curl -o change_yml.py 'https://raw.githubusercontent.com/SajjadPSavoji/Booklet/main/change_yml.py'
+          curl -o change_yml_url.py 'https://raw.githubusercontent.com/SajjadPSavoji/Booklet/main/change_yml_url.py' 
       
       - name: set config field in yml file
         run: |
           python change_yml.py _config.yml title ${{ github.repository }}
           python change_yml.py _config.yml repository.url ${{ github.repositoryUrl }}
+          python change_yml_url.py _config.yml
           rm change_yml.py
+          rm change_yml_url.py
           
           
       - name: Commit changes
