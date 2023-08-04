@@ -9,8 +9,6 @@ on:
     branches: [booklet]
       
 jobs:
-  # this job is executed on first dispatch on main branch
-  # it creates the booklet branch and gh-pages branch
   init_booklet:
     if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'main' }}
     runs-on: ubuntu-latest
@@ -47,7 +45,6 @@ jobs:
           rm change_yml.py
           rm change_yml_url.py
           
-          
       - name: Commit changes
         run: |
           git add .
@@ -60,13 +57,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "booklet"
-          
-      # Build the book
+        
       - name: Build the book
         run: |
           jupyter-book build .
           
-      # Push the book's HTML to github-pages
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.6.1
         with:
@@ -74,28 +69,24 @@ jobs:
           publish_dir: ./_build/html
           publish_branch: gh-pages
           
-  # this job is executed when ever a push on booklet branch is made
-  # it creates and the booklet and deploys gh-pages
   deploy-book:
     if: ${{ github.event_name == 'push' && github.ref_name == 'booklet' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    # Install dependencies
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
+    - name: Check out repository
+      uses: actions/checkout@v3
       with:
-        python-version: 3.8
-
+        persist-credentials: false
+        fetch-depth: 0
+        
     - name: install jupyter book and cookiecutter
       run: |
         pip install -U cookiecutter jupyter-book
-    # Build the book
+
     - name: Build the book
       run: |
         jupyter-book build .
-    # Push the book's HTML to github-pages
+ 
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
